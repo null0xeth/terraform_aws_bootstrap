@@ -11,7 +11,7 @@ resource "aws_kms_key" "new_key" {
   deletion_window_in_days = var.aws_kms_context.aws_kms_key_config.deletion
 }
 
-resource "aws_kms_key_policy" "vault_unseal" {
+resource "aws_kms_key_policy" "kms_policy" {
   count  = (var.aws_kms_context.aws_kms_key_create ? 1 : 0)
   key_id = element(aws_kms_key.new_key[*], 0).id #aws_kms_key.vault_unseal.id
   policy = jsonencode(var.aws_kms_context.aws_kms_key_policy)
@@ -38,6 +38,7 @@ resource "aws_iam_user_policy" "user-account-policy" {
 }
 
 output "kms" {
+  description = "Map containing KMS outputs for use in other modules"
   value = zipmap(
     [
       "kms_key_arn",
@@ -51,6 +52,7 @@ output "kms" {
 }
 
 output "user" {
+  description = "Map containing IAM user outputs for use in other modules"
   value = zipmap(
     [
       "user_arn",

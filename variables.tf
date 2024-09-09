@@ -1,6 +1,12 @@
-variable "provider_aws" {}
+variable "provider_aws" {
+  description = "Configuration passed to the Hashicorp/aws provider"
+  type = object({
+    region = optional(string)
+  })
+}
 
 variable "aws_kms_context" {
+  description = "Configuration variables used for the AWS KMS resources"
   type = object({
     aws_kms_key_create = optional(bool)
     aws_kms_key_config = optional(object({
@@ -23,6 +29,7 @@ variable "aws_kms_context" {
 }
 
 variable "aws_iam_context" {
+  description = "Configuration variables used for the AWS IAM resources"
   type = object({
     aws_iam_user             = optional(string)
     aws_iam_user_path        = optional(string)
